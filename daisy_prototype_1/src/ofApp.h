@@ -26,5 +26,4 @@ class ofApp : public ofBaseApp{
 		
         baseScene *myScene[SCENE_NUM];
         int currentScene;
-    
 };

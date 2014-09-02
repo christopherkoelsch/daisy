@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "baseScene.h"
 #include "particle.h"
-
+#include "follower.h"
 
 class startScene : public baseScene {
 
@@ -25,5 +25,6 @@ public:
     
     vector<particle> flwers;
     ofImage flwerImage;
+    follower myFlw;
 };
 

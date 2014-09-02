@@ -41,6 +41,7 @@
 		F9B4BE3019B6205100DE59CB /* startScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B4BE2D19B6205000DE59CB /* startScene.cpp */; };
 		F9B4BE3419B620BC00DE59CB /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B4BE3219B620BC00DE59CB /* particle.cpp */; };
 		F9B4BE4219B6308400DE59CB /* follower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B4BE4019B6308400DE59CB /* follower.cpp */; };
+		F9B4BE4519B63E2900DE59CB /* petal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B4BE4319B63E2900DE59CB /* petal.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,8 @@
 		F9B4BE3319B620BC00DE59CB /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
 		F9B4BE4019B6308400DE59CB /* follower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = follower.cpp; sourceTree = "<group>"; };
 		F9B4BE4119B6308400DE59CB /* follower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = follower.h; sourceTree = "<group>"; };
+		F9B4BE4319B63E2900DE59CB /* petal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = petal.cpp; sourceTree = "<group>"; };
+		F9B4BE4419B63E2900DE59CB /* petal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = petal.h; sourceTree = "<group>"; };
 		FC5DA1C87211D4F6377DA719 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlparser.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -298,6 +301,8 @@
 				F9B4BE3319B620BC00DE59CB /* particle.h */,
 				F9B4BE4019B6308400DE59CB /* follower.cpp */,
 				F9B4BE4119B6308400DE59CB /* follower.h */,
+				F9B4BE4319B63E2900DE59CB /* petal.cpp */,
+				F9B4BE4419B63E2900DE59CB /* petal.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -405,6 +410,7 @@
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
+				F9B4BE4519B63E2900DE59CB /* petal.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
