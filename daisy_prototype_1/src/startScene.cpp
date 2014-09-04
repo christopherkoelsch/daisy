@@ -5,7 +5,7 @@ void startScene::setup(){
     
     flwerImage.loadImage("images/daisy1.png");
     
-    myFlw.setInitialCondition(ofGetWidth()/2, ofGetHeight()/2, 0, 0);
+    myFlw.setInitialCondition(ofGetWidth()/2, ofGetHeight()/2, ofRandom(-1,1), ofRandom(-1,1));
 }
 
 //--------------------------------------------------------------

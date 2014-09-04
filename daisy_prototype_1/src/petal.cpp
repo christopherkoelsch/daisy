@@ -123,7 +123,8 @@ void petal::addRepulsionForce(float x, float y, float radius, float scale){
 }
 
 //--------------------------------------------------------------
-void petal::resetAngle(int Angle){
+void petal::resetAngle(float Angle){
+    
     angle =Angle*RAD_TO_DEG;
 }
 
