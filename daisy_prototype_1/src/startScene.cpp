@@ -28,6 +28,7 @@ void startScene::draw(){
 void startScene::keyPressed(int key){
     
     myFlw.keyPressed(key);
+    
 }
 
 //--------------------------------------------------------------
