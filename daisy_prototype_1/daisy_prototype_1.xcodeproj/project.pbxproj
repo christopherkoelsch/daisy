@@ -297,12 +297,12 @@
 				F9B4BE2C19B6205000DE59CB /* baseScene.h */,
 				F9B4BE2D19B6205000DE59CB /* startScene.cpp */,
 				F9B4BE2E19B6205000DE59CB /* startScene.h */,
-				F9B4BE3219B620BC00DE59CB /* particle.cpp */,
-				F9B4BE3319B620BC00DE59CB /* particle.h */,
 				F9B4BE4019B6308400DE59CB /* follower.cpp */,
 				F9B4BE4119B6308400DE59CB /* follower.h */,
 				F9B4BE4319B63E2900DE59CB /* petal.cpp */,
 				F9B4BE4419B63E2900DE59CB /* petal.h */,
+				F9B4BE3219B620BC00DE59CB /* particle.cpp */,
+				F9B4BE3319B620BC00DE59CB /* particle.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

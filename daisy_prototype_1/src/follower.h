@@ -2,12 +2,18 @@
 
 #include "ofMain.h"
 #include "petal.h"
-#define PETALS_NUMBER 20
+#define PETALS_NUMBER 1
 class follower {
     
 public:
     
-    void setup();
+    ofVec2f pos;
+
+    ofVec2f vel;
+    ofVec2f frc;
+    
+    follower();
+    void setInitialCondition(float px, float py, float vx, float vy);
     void update();
     void draw();
     
@@ -19,11 +25,22 @@ public:
     void mouseDragged(int x, int y, int button);
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
-
-    ofPoint pos;
+    
+    void resetForce();
+    void addForce(float x, float y);
+    void addRepulsionForce(float x, float y, float radius, float scale);
+    void addAttractionForce(float x, float y, float radius, float scale);
+    void addRepulsionForce(follower &p, float radius, float scale);
+    void addAttractionForce(follower &p, float radius, float scale);
+    void addDampingForce();
+    void bounceOffWalls();
+    
+    float damping;
+    
     ofImage flowerImage;
     ofImage petalImage;
     vector <petal> myPetals;
     float radius;
     float angle;
+    bool bPetalFixed;
 };
