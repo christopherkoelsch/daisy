@@ -2,7 +2,6 @@
 
 
 petal::petal(){
-    setInitialCondition(0,0,0,0);
 	damping = 0.005f;
     gravity.set(0,0);
     rotateSpeed = 0;
@@ -38,7 +37,7 @@ void petal::draw(){
     ofPushMatrix();
     ofTranslate(pos.x,pos.y);
     ofRotateZ(angle);
-    ofSetColor(255,200,0);
+    ofSetColor(255);
     image->draw( -image->getWidth()/2, -image->getHeight()/2);
     ofPopMatrix();
     
@@ -123,7 +122,10 @@ void petal::addRepulsionForce(float x, float y, float radius, float scale){
     
 }
 
-
+//--------------------------------------------------------------
+void petal::resetAngle(int Angle){
+    angle =Angle*RAD_TO_DEG;
+}
 
 
 

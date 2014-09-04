@@ -30,7 +30,8 @@ public:
     void setInitialCondition(float px, float py, float vx, float vy);
     void addRepulsionForce(float x, float y, float radius, float scale);
 
-    
+    void resetAngle(int Angle);
+
 
     ofImage *image;
     float angle;

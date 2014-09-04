@@ -3,7 +3,6 @@
 
 follower::follower(){
     
-    setInitialCondition(0,0,0,0);
 	damping = 0.001f;
     radius = 30;
     angle =  0;
@@ -19,12 +18,12 @@ void follower::setInitialCondition(float px, float py, float vx, float vy){
     petalImage.loadImage("images/petal0.png");
     
     for (int i=0; i<PETALS_NUMBER; i++) {
-        angle+=TWO_PI/PETALS_NUMBER;
+        float ang = angle+TWO_PI/PETALS_NUMBER*i;
         petal temPetal;
         myPetals.push_back(temPetal);
-        float petalX = pos.x + (radius+petalImage.getWidth()/2)*cos(angle);
-        float petalY = pos.y + (radius+petalImage.getWidth()/2)*sin(angle);
-        myPetals.back().setup(petalImage,petalX,petalY,angle);
+        float petalX = pos.x + (radius+petalImage.getWidth()/2)*cos(ang);
+        float petalY = pos.y + (radius+petalImage.getWidth()/2)*sin(ang);
+        myPetals.back().setup(petalImage,petalX,petalY,ang);
     }
 }
 //--------------------------------------------------------------
@@ -37,8 +36,13 @@ void follower::update(){
     for (int i=0; i<myPetals.size(); i++) {
         
         if (!myPetals[i].bFly) {
-                
-            
+            for (int i=0; i<PETALS_NUMBER; i++) {
+                float ang = angle+TWO_PI/PETALS_NUMBER*i;
+                float x = pos.x + (radius+petalImage.getWidth()/2)*cos(ang);
+                float y = pos.y + (radius+petalImage.getWidth()/2)*sin(ang);
+                myPetals[i].pos.set(x,y);
+                myPetals[i].resetAngle(ang);
+            }
 
         }else{
         
