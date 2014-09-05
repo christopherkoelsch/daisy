@@ -32,7 +32,8 @@ void follower::update(){
     vel = vel + frc;
 	pos = pos + vel;
     
-
+    angle-=0.01;
+    
     for (int i=0; i<myPetals.size(); i++) {
         
         if (!myPetals[i].bFly) {
@@ -74,6 +75,7 @@ void follower::draw(){
     
     ofPushMatrix();
     ofTranslate(pos);
+    ofRotateZ(angle*RAD_TO_DEG);
     ofSetColor(255);
     flowerImage.draw(-flowerImage.getWidth()/2, -flowerImage.getHeight()/2);
     ofPopMatrix();

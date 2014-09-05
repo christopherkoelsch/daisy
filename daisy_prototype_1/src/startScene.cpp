@@ -20,7 +20,6 @@ void startScene::update(){
 //--------------------------------------------------------------
 void startScene::draw(){
     
-    
     myFlw.draw();
 }
 
