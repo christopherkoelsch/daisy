@@ -17,7 +17,7 @@ void follower::setInitialCondition(float px, float py, float vx, float vy){
     flowerImage.loadImage("images/flower.png");
     petalImage.loadImage("images/petal0.png");
     
-    for (int i=0; i<PETALS_NUMBER; i++) {
+    for (int i=0; i<PETALS_NUMBER-5; i++) {
         float ang = angle+TWO_PI/PETALS_NUMBER*i;
         petal temPetal;
         myPetals.push_back(temPetal);
@@ -63,7 +63,6 @@ void follower::update(){
     
     
     
-    
 }
 
 //--------------------------------------------------------------
@@ -79,6 +78,9 @@ void follower::draw(){
     ofSetColor(255);
     flowerImage.draw(-flowerImage.getWidth()/2, -flowerImage.getHeight()/2);
     ofPopMatrix();
+    
+
+    
     
 }
 
@@ -129,6 +131,22 @@ void follower::mouseDragged(int x, int y, int follower){
 //--------------------------------------------------------------
 void follower::mousePressed(int x, int y, int follower){
     
+    ofPoint mouse(x,y);
+    float dis = mouse.distance(pos);
+    if (dis<136) {
+        for (int i=0; i<myPetals.size(); i++) {
+            
+            ofPoint offset = ofPoint(ofRandom(-50,50),ofRandom(-50,50));
+            myPetals[i].repulsionPos = pos + offset;
+            myPetals[i].repulsionRadius = myPetals[i].repulsionPos.distance(myPetals[i].pos)*ofRandom(1.1,1.2);
+            myPetals[i].repulsionScale = ofRandom(0.3,3);
+            myPetals[i].rotateSpeed = ofRandom(5,8);
+            myPetals[i].gravity.set(0, 0.002);
+            myPetals[i].bFly = true;
+        }
+        
+        bPetalFixed = false;
+    }
 }
 
 //--------------------------------------------------------------
