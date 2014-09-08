@@ -96,22 +96,7 @@ void follower::petalMove(){
 //--------------------------------------------------------------
 void follower::keyPressed(int key){
     
-    if (key == ' ') {
-        for (int i=0; i<myPetals.size(); i++) {
-            
-            ofPoint offset = ofPoint(ofRandom(-50,50),ofRandom(-50,50));
-            myPetals[i].repulsionPos = pos + offset;
-            myPetals[i].repulsionRadius = myPetals[i].repulsionPos.distance(myPetals[i].pos)*ofRandom(1.1,1.2);
-            myPetals[i].repulsionScale = ofRandom(0.3,3);
-            myPetals[i].rotateSpeed = ofRandom(5,8);
-            myPetals[i].gravity.set(0, 0.002);
-            myPetals[i].bFly = true;
-        }
-        
-        bPetalFixed = false;
-    }
 }
-
 //--------------------------------------------------------------
 void follower::keyReleased(int key){
     
@@ -121,19 +106,9 @@ void follower::keyReleased(int key){
 //--------------------------------------------------------------
 void follower::mouseMoved(int x, int y ){
     
-}
-
-//--------------------------------------------------------------
-void follower::mouseDragged(int x, int y, int follower){
-    
-}
-
-//--------------------------------------------------------------
-void follower::mousePressed(int x, int y, int follower){
-    
     ofPoint mouse(x,y);
     float dis = mouse.distance(pos);
-    if (dis<136) {
+    if (dis<136 && bPetalFixed) {
         for (int i=0; i<myPetals.size(); i++) {
             
             ofPoint offset = ofPoint(ofRandom(-50,50),ofRandom(-50,50));
@@ -150,7 +125,17 @@ void follower::mousePressed(int x, int y, int follower){
 }
 
 //--------------------------------------------------------------
-void follower::mouseReleased(int x, int y, int follower){
+void follower::mouseDragged(int x, int y, int button){
+    
+}
+
+//--------------------------------------------------------------
+void follower::mousePressed(int x, int y, int button){
+    
+}
+
+//--------------------------------------------------------------
+void follower::mouseReleased(int x, int y, int button){
     
 }
 

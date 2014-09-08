@@ -35,10 +35,14 @@ void ofApp::keyReleased(int key){
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
 
+    myFlw.mouseMoved(x, y);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
+
+    myFlw.mouseDragged(x, y, button);
 
 }
 
