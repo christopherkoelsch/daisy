@@ -3,7 +3,7 @@
 
 follower::follower(){
     
-    damping = 0.001f;
+	damping = 0.001f;
     radius = 30;
     angle =  0;
     bPetalFixed = true;
@@ -14,43 +14,55 @@ void follower::setInitialCondition(float px, float py, float vx, float vy){
     
     pos.set(px,py);
 	vel.set(vx,vy);
-    
     flowerImage.loadImage("images/flower.png");
     petalImage.loadImage("images/petal0.png");
     
     for (int i=0; i<PETALS_NUMBER; i++) {
-        float ang = angle+TWO_PI/PETALS_NUMBER;
+        float ang = angle+TWO_PI/PETALS_NUMBER*i;
         petal temPetal;
+        myPetals.push_back(temPetal);
         float petalX = pos.x + (radius+petalImage.getWidth()/2)*cos(ang);
         float petalY = pos.y + (radius+petalImage.getWidth()/2)*sin(ang);
-        temPetal.setup(petalImage,petalX,petalY,ang);
-        myPetals.push_back(temPetal);
+        myPetals.back().setup(petalImage,petalX,petalY,ang);
     }
 }
 //--------------------------------------------------------------
 void follower::update(){
-   
+    
     vel = vel + frc;
 	pos = pos + vel;
     
-
-//    for (int i=0; i<myPetals.size(); i++) {
-//        
-//        myPetals[i].resetForce();
-//        myPetals[i].addRepulsionForce(myPetals[i].repulsionPos.x,
-//                                      myPetals[i].repulsionPos.y,
-//                                      myPetals[i].repulsionRadius,
-//                                      myPetals[i].repulsionScale);
-//    
-//        myPetals[i].addForce(myPetals[i].gravity.x, myPetals[i].gravity.y);
-//        myPetals[i].addDampingForce();
-//        myPetals[i].update();
-//        
-//    }
+    angle-=0.01;
+    
+    for (int i=0; i<myPetals.size(); i++) {
+        
+        if (!myPetals[i].bFly) {
+            for (int i=0; i<PETALS_NUMBER; i++) {
+                float ang = angle+TWO_PI/PETALS_NUMBER*i;
+                float x = pos.x + (radius+petalImage.getWidth()/2)*cos(ang);
+                float y = pos.y + (radius+petalImage.getWidth()/2)*sin(ang);
+                myPetals[i].pos.set(x,y);
+                myPetals[i].resetAngle(ang);
+            }
+            
+        }else{
+            
+            myPetals[i].resetForce();
+            myPetals[i].addRepulsionForce(myPetals[i].repulsionPos.x,
+                                          myPetals[i].repulsionPos.y,
+                                          myPetals[i].repulsionRadius,
+                                          myPetals[i].repulsionScale);
+            
+            myPetals[i].addForce(myPetals[i].gravity.x, myPetals[i].gravity.y);
+            myPetals[i].addDampingForce();
+            myPetals[i].update();
+            
+        }
+    }
     
     
-    cout<<myPetals.size()<<endl;
-
+    
+    
     
 }
 
@@ -63,6 +75,7 @@ void follower::draw(){
     
     ofPushMatrix();
     ofTranslate(pos);
+    ofRotateZ(angle*RAD_TO_DEG);
     ofSetColor(255);
     flowerImage.draw(-flowerImage.getWidth()/2, -flowerImage.getHeight()/2);
     ofPopMatrix();
@@ -72,7 +85,7 @@ void follower::draw(){
 //--------------------------------------------------------------
 void follower::petalMove(){
     
-
+    
     
     
     
@@ -130,14 +143,14 @@ void follower::resetForce(){
 }
 //--------------------------------------------------------------
 void follower::addForce(float x, float y){
-
+    
     frc.x = frc.x + x;
     frc.y = frc.y + y;
     
 }
 //--------------------------------------------------------------
 void follower::addRepulsionForce(float x, float y, float radius, float scale){
-
+    
     ofVec2f posOfForce;
 	posOfForce.set(x,y);
 	
@@ -162,11 +175,11 @@ void follower::addRepulsionForce(float x, float y, float radius, float scale){
 		frc.x = frc.x + diff.x * scale * pct;
         frc.y = frc.y + diff.y * scale * pct;
     }
-
+    
 }
 //--------------------------------------------------------------
 void follower::addAttractionForce(float x, float y, float radius, float scale){
-
+    
     // ----------- (1) make a vector of where this position is:
 	
 	ofVec2f posOfForce;
@@ -197,7 +210,7 @@ void follower::addAttractionForce(float x, float y, float radius, float scale){
 }
 //--------------------------------------------------------------
 void follower::addRepulsionForce(follower &p, float radius, float scale){
-
+    
     // ----------- (1) make a vector of where this particle p is:
 	ofVec2f posOfForce;
 	posOfForce.set(p.pos.x,p.pos.y);
@@ -226,11 +239,11 @@ void follower::addRepulsionForce(follower &p, float radius, float scale){
         p.frc.x = p.frc.x - diff.x * scale * pct;
         p.frc.y = p.frc.y - diff.y * scale * pct;
     }
-
+    
 }
 //--------------------------------------------------------------
 void follower::addAttractionForce(follower &p, float radius, float scale){
-
+    
     // ----------- (1) make a vector of where this particle p is:
 	ofVec2f posOfForce;
 	posOfForce.set(p.pos.x,p.pos.y);
@@ -259,18 +272,18 @@ void follower::addAttractionForce(follower &p, float radius, float scale){
 		p.frc.x = p.frc.x + diff.x * scale * pct;
         p.frc.y = p.frc.y + diff.y * scale * pct;
     }
-
+    
 }
 //--------------------------------------------------------------
 void follower::addDampingForce(){
-
+    
     frc.x = frc.x - vel.x * damping;
     frc.y = frc.y - vel.y * damping;
 }
 
 //--------------------------------------------------------------
 void follower::bounceOffWalls(){
-
+    
     // sometimes it makes sense to damped, when we hit
 	bool bDampedOnCollision = true;
 	bool bDidICollide = false;
@@ -301,9 +314,9 @@ void follower::bounceOffWalls(){
 		bDidICollide = true;
 	}
 	
-//	if (bDidICollide == true && bDampedOnCollision == true){
-//		vel *= 0.3;
-//	}
+    //	if (bDidICollide == true && bDampedOnCollision == true){
+    //		vel *= 0.3;
+    //	}
 }
 
 

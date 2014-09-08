@@ -8,7 +8,7 @@ class follower {
 public:
     
     ofVec2f pos;
-
+    
     ofVec2f vel;
     ofVec2f frc;
     

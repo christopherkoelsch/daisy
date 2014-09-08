@@ -2,7 +2,6 @@
 
 
 petal::petal(){
-    setInitialCondition(0,0,0,0);
 	damping = 0.005f;
     gravity.set(0,0);
     rotateSpeed = 0;
@@ -21,18 +20,20 @@ void petal::setup(ofImage &IMAGE, float x, float y, float Angle){
 
 //--------------------------------------------------------------
 void petal::update(){
-
+    
     vel = vel + frc;
 	pos = pos + vel;
-    angle +=  rotateSpeed * vel.length() * diff;
     
-
+    if (bFly) {
+        angle +=  rotateSpeed * vel.length() * diff;
+    }
+    
 }
 
 //--------------------------------------------------------------
 void petal::draw(){
     
-
+    
     ofPushMatrix();
     ofTranslate(pos.x,pos.y);
     ofRotateZ(angle);
@@ -84,14 +85,14 @@ void petal::addForce(float x, float y){
 }
 //--------------------------------------------------------------
 void petal::addDampingForce(){
-  
+    
     frc.x = frc.x - vel.x * damping;
     frc.y = frc.y - vel.y * damping;
     
 }
 //--------------------------------------------------------------
 void petal::setInitialCondition(float px, float py, float vx, float vy){
-
+    
     pos.set(px,py);
 	vel.set(vx,vy);
 }
@@ -100,10 +101,10 @@ void petal::addRepulsionForce(float x, float y, float radius, float scale){
 	
 	ofVec2f posOfForce;
 	posOfForce.set(x,y);
-		
+    
 	ofVec2f diff	= pos - posOfForce;
 	float length	= diff.length();
-		
+    
 	bool bAmCloseEnough = true;
     if (radius > 0){
         if (length > radius){
@@ -121,7 +122,11 @@ void petal::addRepulsionForce(float x, float y, float radius, float scale){
     
 }
 
-
+//--------------------------------------------------------------
+void petal::resetAngle(float Angle){
+    
+    angle =Angle*RAD_TO_DEG;
+}
 
 
 
