@@ -17,7 +17,7 @@ void follower::setInitialCondition(float px, float py, float vx, float vy){
     flowerImage.loadImage("images/flower.png");
     petalImage.loadImage("images/petal0.png");
     
-    for (int i=0; i<PETALS_NUMBER-5; i++) {
+    for (int i=0; i<PETALS_NUMBER; i++) {
         float ang = angle+TWO_PI/PETALS_NUMBER*i;
         petal temPetal;
         myPetals.push_back(temPetal);
@@ -37,14 +37,11 @@ void follower::update(){
     for (int i=0; i<myPetals.size(); i++) {
         
         if (!myPetals[i].bFly) {
-            for (int i=0; i<PETALS_NUMBER; i++) {
                 float ang = angle+TWO_PI/PETALS_NUMBER*i;
                 float x = pos.x + (radius+petalImage.getWidth()/2)*cos(ang);
                 float y = pos.y + (radius+petalImage.getWidth()/2)*sin(ang);
                 myPetals[i].pos.set(x,y);
                 myPetals[i].resetAngle(ang);
-            }
-            
         }else{
             
             myPetals[i].resetForce();
@@ -109,15 +106,15 @@ void follower::mouseMoved(int x, int y ){
     ofPoint mouse(x,y);
     float dis = mouse.distance(pos);
     if (dis<136 && bPetalFixed) {
-        for (int i=0; i<myPetals.size(); i++) {
-            
-            ofPoint offset = ofPoint(ofRandom(-50,50),ofRandom(-50,50));
-            myPetals[i].repulsionPos = pos + offset;
-            myPetals[i].repulsionRadius = myPetals[i].repulsionPos.distance(myPetals[i].pos)*ofRandom(1.1,1.2);
-            myPetals[i].repulsionScale = ofRandom(0.3,3);
-            myPetals[i].rotateSpeed = ofRandom(5,8);
-            myPetals[i].gravity.set(0, 0.002);
-            myPetals[i].bFly = true;
+        for (int i=0; i<myPetals.size()-3; i++) {
+
+                ofPoint offset = ofPoint(ofRandom(-50,50),ofRandom(-50,50));
+                myPetals[i].repulsionPos = pos + offset;
+                myPetals[i].repulsionRadius = myPetals[i].repulsionPos.distance(myPetals[i].pos)*ofRandom(1.1,1.2);
+                myPetals[i].repulsionScale = ofRandom(0.3,3);
+                myPetals[i].rotateSpeed = ofRandom(5,8);
+                myPetals[i].gravity.set(0, 0.002);
+                myPetals[i].bFly = true;
         }
         
         bPetalFixed = false;
