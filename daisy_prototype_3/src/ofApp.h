@@ -20,9 +20,11 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-    ofImage daisyImage;
-    ofImage petalImage;
-    ofImage followerImage;
-    vector<follower> myFlws;
+    ofImage             daisyImage;
+    ofImage             petalImage;
+    ofImage             followerImage;
+    vector<follower>    myFlws;
+    int                 flwCounter;
+    bool                bEmit;
     
 };

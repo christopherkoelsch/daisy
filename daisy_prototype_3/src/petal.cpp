@@ -2,7 +2,7 @@
 
 
 petal::petal(){
-	damping = 0.005f;
+	damping = ofRandom(0.002f, 0.008f);
     gravity.set(0,0);
     rotateSpeed = 0;
     diff = ofRandom(-0.2, 0.2);

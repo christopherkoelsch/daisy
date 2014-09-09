@@ -7,6 +7,7 @@ void ofApp::setup(){
     daisyImage.loadImage("images/flower.png");
     petalImage.loadImage("images/petal0.png");
     followerImage.loadImage("images/daisy1.png");
+    bEmit = false;
 }
 
 //--------------------------------------------------------------
@@ -16,6 +17,30 @@ void ofApp::update(){
         myFlws[i].resetForce();
         myFlws[i].bounceOffWalls();
         myFlws[i].update();
+    }
+    
+    
+    if (bEmit) {
+        for (int i=0; i< 40 ; i++) {
+            
+            int min = -3;
+            int max = -15;
+            bool bKing = false;
+            if (i%10 == 0) {
+                bKing = true;
+                max = -1;
+                max = -4;
+            }
+            follower tempFlw;
+            myFlws.push_back(tempFlw);
+            myFlws.back().setInitialCondition(followerImage,daisyImage, petalImage, ofGetWidth()/2, ofGetHeight()+200, ofRandom(-1,1), -ofRandom(min,max), bKing);
+            
+            cout<<i%10<<endl;
+        }
+        
+        bEmit = false;
+        
+        
     }
 }
 
@@ -30,6 +55,9 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
+    if (key == ' ' ) {
+        bEmit = true;
+    }
 }
 
 //--------------------------------------------------------------
@@ -41,6 +69,9 @@ void ofApp::keyReleased(int key){
 void ofApp::mouseMoved(int x, int y ){
 
 
+    for (int i=0; i<myFlws.size(); i++) {
+        myFlws[i].mouseMoved(x, y);
+    }
 }
 
 //--------------------------------------------------------------
@@ -52,11 +83,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 
-    
 
-    follower tempFlw;
-    myFlws.push_back(tempFlw);
-    myFlws.back().setInitialCondition(daisyImage, petalImage, ofGetWidth()/2, ofGetHeight(), ofRandom(-1,1), -ofRandom(-1,-2), ofRandom(0.2,0.6));
+    
 }
 
 //--------------------------------------------------------------

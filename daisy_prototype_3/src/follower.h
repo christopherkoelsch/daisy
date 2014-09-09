@@ -13,12 +13,13 @@ public:
     ofVec2f frc;
     
     follower();
-    void setInitialCondition(ofImage &Daisy, ofImage &Petal, float px, float py, float vx, float vy, float Scale);
+    float map(float in, float inMin,float inMax, float outMin, float outMax, float shaper);
+
+    void setInitialCondition(ofImage &FollowerImage,ofImage &Daisy, ofImage &Petal, float px, float py, float vx, float vy, bool King);
     void update();
     void draw();
     
     void petalMove();
-    
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
@@ -36,13 +37,17 @@ public:
     void bounceOffWalls();
     
     float damping;
-    
+    float lifeTime;
     ofImage *daisyImage;
     ofImage *petalImage;
+    ofImage *followerImage;
     vector <petal> myPetals;
     float radius;
     float angle;
+    float angleSpeed;
     bool bPetalFixed;
     bool bIsKing;
+    bool bDead;
     float scale;
+    float timer;
 };

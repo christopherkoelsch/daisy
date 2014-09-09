@@ -1,31 +1,50 @@
 #include "follower.h"
 
+float follower::map(float in, float inMin,float inMax, float outMin, float outMax, float shaper){
+    float pct = ofMap (in, inMin, inMax, 0, 1, true);
+    pct = powf(pct, shaper);
+    float out = ofMap(pct, 0,1, outMin, outMax, true);
+    return out;
+}
 
+//--------------------------------------------------------------
 follower::follower(){
     
 	damping = 0.001f;
     radius = 30;
     angle =  0;
     bPetalFixed = true;
+    bDead = false;
+    timer = ofGetElapsedTimeMillis();
+    angleSpeed = ofRandom(-0.02,0.02);
+    lifeTime = ofRandom(15000,25000);
 }
 
 //--------------------------------------------------------------
-void follower::setInitialCondition(ofImage &Daisy, ofImage &Petal, float px, float py, float vx, float vy, float Scale){
+void follower::setInitialCondition(ofImage &FollowerImage, ofImage &Daisy, ofImage &Petal, float px, float py, float vx, float vy, bool King){
     
-    pos.set(px,py);
-	vel.set(vx,vy);
-    scale = Scale;
+    followerImage = &FollowerImage;
     daisyImage = &Daisy;
     petalImage = &Petal;
+    pos.set(px,py);
+	vel.set(vx,vy);
+    bIsKing = King;
     
-    for (int i=0; i<PETALS_NUMBER; i++) {
-        float ang = angle+TWO_PI/PETALS_NUMBER*i;
-        petal temPetal;
-        myPetals.push_back(temPetal);
-        float petalX = pos.x + (radius+petalImage->getWidth()/2)*scale*cos(ang);
-        float petalY = pos.y + (radius+petalImage->getWidth()/2)*scale*sin(ang);
-        myPetals.back().setup(Petal,petalX,petalY,ang, scale);
+    if (bIsKing) {
+        scale = 1;
+        for (int i=0; i<PETALS_NUMBER; i++) {
+            float ang = angle+TWO_PI/PETALS_NUMBER*i;
+            petal temPetal;
+            myPetals.push_back(temPetal);
+            float petalX = pos.x + (radius+petalImage->getWidth()/2)*scale*cos(ang);
+            float petalY = pos.y + (radius+petalImage->getWidth()/2)*scale*sin(ang);
+            myPetals.back().setup(Petal,petalX,petalY,ang, scale);
+        }
+    }else{
+        scale = ofRandom(0.15,0.6);
     }
+    
+    
 }
 //--------------------------------------------------------------
 void follower::update(){
@@ -33,28 +52,36 @@ void follower::update(){
     vel = vel + frc;
 	pos = pos + vel;
     
-    angle-=0.01;
+    angle+=angleSpeed;
     
-    for (int i=0; i<myPetals.size(); i++) {
-        
-        if (!myPetals[i].bFly) {
+    if (bIsKing){
+        for (int i=0; i<myPetals.size(); i++) {
+            
+            if (!myPetals[i].bFly) {
                 float ang = angle+TWO_PI/PETALS_NUMBER*i;
                 float x = pos.x + (radius+petalImage->getWidth()/2)*scale*cos(ang);
                 float y = pos.y + (radius+petalImage->getWidth()/2)*scale*sin(ang);
                 myPetals[i].pos.set(x,y);
                 myPetals[i].resetAngle(ang);
-        }else{
-            
-            myPetals[i].resetForce();
-            myPetals[i].addRepulsionForce(myPetals[i].repulsionPos.x,
-                                          myPetals[i].repulsionPos.y,
-                                          myPetals[i].repulsionRadius,
-                                          myPetals[i].repulsionScale);
-            
-            myPetals[i].addForce(myPetals[i].gravity.x, myPetals[i].gravity.y);
-            myPetals[i].addDampingForce();
-            myPetals[i].update();
-            
+            }else{
+                
+                myPetals[i].resetForce();
+                myPetals[i].addRepulsionForce(myPetals[i].repulsionPos.x,
+                                              myPetals[i].repulsionPos.y,
+                                              myPetals[i].repulsionRadius,
+                                              myPetals[i].repulsionScale);
+                
+                myPetals[i].addForce(myPetals[i].gravity.x, myPetals[i].gravity.y);
+                myPetals[i].addDampingForce();
+                myPetals[i].update();
+                
+            }
+        }
+
+    }else{
+    
+        if(ofGetElapsedTimeMillis() - timer > lifeTime){
+            bDead = true;
         }
     }
     
@@ -66,17 +93,31 @@ void follower::update(){
 //--------------------------------------------------------------
 void follower::draw(){
     
-    for (int i=0; i<myPetals.size(); i++) {
-        myPetals[i].draw();
-    }
+    if (bIsKing) {
+        for (int i=0; i<myPetals.size(); i++) {
+            myPetals[i].draw();
+        }
+        
+        ofPushMatrix();
+        ofTranslate(pos);
+        ofScale(scale,scale);
+        ofRotateZ(angle*RAD_TO_DEG);
+        ofSetColor(255);
+        daisyImage->draw(-daisyImage->getWidth()/2, -daisyImage->getHeight()/2);
+        ofPopMatrix();
+
+    }else{
     
-    ofPushMatrix();
-    ofTranslate(pos);
-    ofScale(scale,scale);
-    ofRotateZ(angle*RAD_TO_DEG);
-    ofSetColor(255);
-    daisyImage->draw(-daisyImage->getWidth()/2, -daisyImage->getHeight()/2);
-    ofPopMatrix();
+        if (!bDead) {
+            ofPushMatrix();
+            ofTranslate(pos);
+            ofScale(scale,scale);
+            ofRotateZ(angle*RAD_TO_DEG);
+            ofSetColor(255, map(ofGetElapsedTimeMillis() - timer, 0, lifeTime, 255,0, 3.5));
+            followerImage->draw(-followerImage->getWidth()/2, -followerImage->getHeight()/2);
+            ofPopMatrix();
+        }
+    }
     
 
     
@@ -105,11 +146,12 @@ void follower::keyReleased(int key){
 //--------------------------------------------------------------
 void follower::mouseMoved(int x, int y ){
     
-    ofPoint mouse(x,y);
-    float dis = mouse.distance(pos);
-    if (dis<136 && bPetalFixed) {
-        for (int i=0; i<myPetals.size()-3; i++) {
-
+    if (bIsKing) {
+        ofPoint mouse(x,y);
+        float dis = mouse.distance(pos);
+        if (dis<136 && bPetalFixed) {
+            for (int i=0; i<myPetals.size()-3; i++) {
+                
                 ofPoint offset = ofPoint(ofRandom(-50,50),ofRandom(-50,50));
                 myPetals[i].repulsionPos = pos + offset;
                 myPetals[i].repulsionRadius = myPetals[i].repulsionPos.distance(myPetals[i].pos)*ofRandom(1.1,1.2);
@@ -117,10 +159,12 @@ void follower::mouseMoved(int x, int y ){
                 myPetals[i].rotateSpeed = ofRandom(5,8);
                 myPetals[i].gravity.set(0, 0.002);
                 myPetals[i].bFly = true;
+            }
+            
+            bPetalFixed = false;
         }
-        
-        bPetalFixed = false;
     }
+    
 }
 
 //--------------------------------------------------------------
@@ -316,9 +360,9 @@ void follower::bounceOffWalls(){
 		bDidICollide = true;
 	}
 	
-    //	if (bDidICollide == true && bDampedOnCollision == true){
-    //		vel *= 0.3;
-    //	}
+    if (bDidICollide == true && bDampedOnCollision == true && !bIsKing){
+    		vel *= ofRandom(0.1, 0.4);
+    }
 }
 
 
