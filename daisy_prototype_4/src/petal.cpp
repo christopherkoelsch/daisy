@@ -17,6 +17,7 @@ void petal::setup(ofImage &IMAGE, float x, float y, float Angle){
     setInitialCondition(x, y, 0, 0);
     angle =  Angle*RAD_TO_DEG;
     offset = ofRandom(1000);
+    
 }
 
 //--------------------------------------------------------------
