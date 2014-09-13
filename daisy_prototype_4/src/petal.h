@@ -44,5 +44,6 @@ public:
     float diff;
     bool bFly;
     bool bSelected;
+    bool isNotTouch;
     
 };
