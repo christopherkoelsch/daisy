@@ -23,8 +23,8 @@ void ofApp::update(){
     if (bEmit) {
         for (int i=0; i< 40 ; i++) {
             
-            int min = -3;
-            int max = -15;
+            int min = -15;
+            int max = -60;
             bool bKing = false;
             if (i%10 == 0) {
                 bKing = true;

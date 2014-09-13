@@ -51,7 +51,6 @@ void follower::update(){
     
     vel = vel + frc;
 	pos = pos + vel;
-    
     angle+=angleSpeed;
     
     if (bIsKing){
