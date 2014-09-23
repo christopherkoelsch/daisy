@@ -6,8 +6,14 @@ void ofApp::setup(){
     ofEnableAlphaBlending();
     daisyImage.loadImage("images/flower.png");
     petalImage.loadImage("images/petal0.png");
-    followerImage.loadImage("images/daisy1.png");
+    petalImageHovered.loadImage("images/petal01.png");
+    followerImage.loadImage("images/flower_shadow.png");
     bEmit = false;
+    
+    BGimage.loadImage("images/blue_sky.jpg");
+
+    
+  
     
     
 }
@@ -43,7 +49,7 @@ void ofApp::update(){
            
             followerBig tempFlw;
             myFlws.push_back(tempFlw);
-            myFlws.back().setInitialCondition( daisyImage, petalImage,
+            myFlws.back().setInitialCondition( daisyImage, petalImage,petalImageHovered,
                                               ofGetWidth()/2, ofGetHeight()-1,
                                               0, -ofRandom(4,7));
         }
@@ -66,6 +72,9 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
+    BGimage.draw(0,0);
+    
 
     
     for (int i=0; i<myFlwSmall.size(); i++) {

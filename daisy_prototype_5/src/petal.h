@@ -13,7 +13,7 @@ public:
     
     petal();
     
-    void setup(ofImage &IMAGE, float x, float y, float Angle, bool NotTouch);
+    void setup(ofImage &IMAGE,ofImage &ImageHovered, float x, float y, float Angle, bool NotTouch);
     void update();
     void draw();
     
@@ -34,8 +34,8 @@ public:
     
     
     ofImage *image;
+    ofImage *imageHovered;
     float angle;
-    float offset;
     float rotateSpeed;
     ofPoint repulsionPos;
     float repulsionRadius;

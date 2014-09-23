@@ -15,7 +15,7 @@ public:
     followerBig();
     float map(float in, float inMin,float inMax, float outMin, float outMax, float shaper);
 
-    void setInitialCondition(ofImage &Daisy, ofImage &Petal, float px, float py, float vx, float vy);
+    void setInitialCondition(ofImage &Daisy, ofImage &Petal, ofImage &ImageHovered, float px, float py, float vx, float vy);
     void update();
     void draw();
     
@@ -39,6 +39,7 @@ public:
     float damping;
     ofImage *daisyImage;
     ofImage *petalImage;
+    ofImage *petalImageHovered;
     vector <petal> myPetals;
     float radius;
     float angle;

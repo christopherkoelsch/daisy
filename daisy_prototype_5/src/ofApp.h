@@ -25,6 +25,8 @@ class ofApp : public ofBaseApp{
     ofImage             daisyImage;
     ofImage             petalImage;
     ofImage             followerImage;
+    ofImage             petalImageHovered;
+    ofImage             BGimage;
     vector<followerBig> myFlws;
     vector<followerSmall> myFlwSmall;
 

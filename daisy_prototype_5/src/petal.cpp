@@ -11,13 +11,14 @@ petal::petal(){
 }
 
 //--------------------------------------------------------------
-void petal::setup(ofImage &IMAGE, float x, float y, float Angle, bool NotTouch){
+void petal::setup(ofImage &IMAGE, ofImage &ImageHovered,float x, float y, float Angle, bool NotTouch){
     
     image = &IMAGE;
+    imageHovered = &ImageHovered;
     setInitialCondition(x, y, 0, 0);
     angle =  Angle*RAD_TO_DEG;
-    offset = ofRandom(1000);
     isNotTouch = NotTouch;
+    
     
 }
 
@@ -51,11 +52,14 @@ void petal::draw(){
     ofTranslate(pos.x,pos.y);
     ofRotateZ(angle);
     if (bSelected) {
-        ofSetColor(100);
+        ofSetColor(255);
+        imageHovered->draw( -image->getWidth()/2, -image->getHeight()/2);
+
     }else{
         ofSetColor(255);
+        image->draw( -image->getWidth()/2, -image->getHeight()/2);
+
     }
-    image->draw( -image->getWidth()/2, -image->getHeight()/2);
     ofPopMatrix();
 
     

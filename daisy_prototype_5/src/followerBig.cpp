@@ -11,7 +11,7 @@ float followerBig::map(float in, float inMin,float inMax, float outMin, float ou
 followerBig::followerBig(){
     
 	damping = 0.001f;
-    radius = 30;
+    radius = 20;
     angle =  0;
     bPetalFixed = true;
     isFirstBuncing = true;
@@ -19,10 +19,11 @@ followerBig::followerBig(){
 }
 
 //--------------------------------------------------------------
-void followerBig::setInitialCondition(ofImage &Daisy, ofImage &Petal, float px, float py, float vx, float vy){
+void followerBig::setInitialCondition(ofImage &Daisy, ofImage &Petal, ofImage &ImageHovered, float px, float py, float vx, float vy){
     
     daisyImage = &Daisy;
     petalImage = &Petal;
+    petalImageHovered = &ImageHovered;
     pos.set(px,py);
 	vel.set(vx,vy);
     
@@ -37,7 +38,7 @@ void followerBig::setInitialCondition(ofImage &Daisy, ofImage &Petal, float px, 
         if (i%2 == 0) {
             isNotTouch = true;
         }
-        myPetals.back().setup(Petal,petalX,petalY,ang, isNotTouch);
+        myPetals.back().setup(Petal, ImageHovered, petalX,petalY,ang, isNotTouch);
     }
     
     
@@ -132,6 +133,7 @@ void followerBig::mouseMoved(int x, int y ){
                 myPetals[i].bFly = true;
             }
             
+            vel *= 0.2;
             bPetalFixed = false;
         }
     }else{
