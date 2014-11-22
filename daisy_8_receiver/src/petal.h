@@ -32,6 +32,9 @@ public:
     
     void resetAngle(float Angle);
     
+    void setupArduino(const int & version);
+    void updateArduino();
+
     
     ofImage *image;
     ofImage *imageHovered;
@@ -45,5 +48,15 @@ public:
     bool bFly;
     bool bSelected;
     bool isNotTouch;
+    
+    //sound Kasia add
+    ofSoundPlayer  whisper;
+    bool playOnce;
+    
+    //ard Kasia add
+    ofArduino	ard;
+    bool		bSetupArduino;
+    
+
     
 };

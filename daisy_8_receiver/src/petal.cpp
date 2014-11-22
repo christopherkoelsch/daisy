@@ -19,11 +19,31 @@ void petal::setup(ofImage &IMAGE, ofImage &ImageHovered,float x, float y, float 
     angle =  Angle*RAD_TO_DEG;
     isNotTouch = NotTouch;
     
+    //sound K add
+    
+    whisper.loadSound("aaah.wav");
+    playOnce = false;
+    
+    //--ARD K add
+    ard.connect("/dev/tty.usbmodem1411", 57600);
+    ofAddListener(ard.EInitialized, this, &petal::setupArduino);
+	bSetupArduino	= false;
+
+    ard.sendDigitalPinMode(13, ARD_OUTPUT);
+    
+
+    
     
 }
 
 //--------------------------------------------------------------
 void petal::update(){
+    
+    //- sound
+    ofSoundUpdate();
+    //--ARD
+    updateArduino();
+
     
     vel = vel + frc;
 	pos = pos + vel;
@@ -35,11 +55,23 @@ void petal::update(){
             ofPoint mouse(app->mouseX[i],app->mouseY[i]);
             if (!isNotTouch) {
            if (mouse.distance(pos)<40) {
-                
+               
+               //kasia add
+               //can't get the sound to play once
+               //whisper.play();
+               
+               //adding arduino as receiver - same situation it keeps on turning on the fan
+               ard.sendDigital(13, ARD_HIGH);
+
+               
                     bSelected = true;
                     break;
                 }else{
                     bSelected = false;
+                    
+                    //kasia add
+                    ard.sendDigital(13, ARD_LOW);
+
                 }
             }
         }
@@ -69,6 +101,29 @@ void petal::draw(){
 }
 
 //--------------------------------------------------------------
+void petal::setupArduino(const int & version) {
+	
+    
+	ofRemoveListener(ard.EInitialized, this, &petal::setupArduino);
+	//ard.sendDigitalPinMode(2, ARD_INPUT);
+    ard.sendDigitalPinMode(13, ARD_OUTPUT);
+    
+	bSetupArduino = true;
+    
+    
+    
+}
+
+//--------------------------------------------------------------
+void petal::updateArduino(){
+    
+    
+	ard.update();
+    
+    
+}
+//------------------------------
+
 void petal::keyPressed(int key){
     
 }
